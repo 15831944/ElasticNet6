@@ -5,7 +5,9 @@ VisualStudioVersion = 17.1.32228.430
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "1_Connection", "1_Connection\1_Connection.csproj", "{B381C474-23D1-40DA-A78E-7468EF74BEC2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2_ConnectionHttps", "2_ConnectionHttps\2_ConnectionHttps.csproj", "{6E4B90A4-A912-4E30-8B08-C8204A614DF5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "2_ConnectionHttps", "2_ConnectionHttps\2_ConnectionHttps.csproj", "{6E4B90A4-A912-4E30-8B08-C8204A614DF5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NestClient", "NestClient\NestClient.csproj", "{49491978-D1B3-4F71-823B-4B7E921831DB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{6E4B90A4-A912-4E30-8B08-C8204A614DF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E4B90A4-A912-4E30-8B08-C8204A614DF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E4B90A4-A912-4E30-8B08-C8204A614DF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49491978-D1B3-4F71-823B-4B7E921831DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49491978-D1B3-4F71-823B-4B7E921831DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49491978-D1B3-4F71-823B-4B7E921831DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49491978-D1B3-4F71-823B-4B7E921831DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
