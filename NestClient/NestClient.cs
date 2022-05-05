@@ -1,4 +1,5 @@
 ﻿using System.Security.Cryptography.X509Certificates;
+using Elastic.Docs;
 using Elasticsearch.Net;
 using Nest;
 
@@ -63,4 +64,30 @@ public class NestClient
             return false;
         }
     }
+
+    #region Index
+    /// <summary>
+    /// Создает пустой индекс для <see cref="Docs.CodeTextsDoc"/>.
+    /// </summary>
+    public CreateIndexResponse CreateIndexOfCodeTextsDoc(string name)
+    {
+        CreateIndexResponse result = elasticClient.Indices
+            .Create(name, s => s
+                .Map<CodeTextsDoc>(ms => ms
+                    .Properties(p => p
+                        .Keyword(k => k.Name(n => n.Code))
+                        .Object<ListItemParameter<string>>(o => o
+                            .Name(n => n.TextParameters)
+                            .Properties(p => p
+                                .Keyword(k => k.Name(n => n.Name))
+                                .Text(t => t.Name(n => n.Value))
+                            )
+                        )
+                    )
+                )
+            );
+
+        return result;
+    }
+    #endregion
 }
