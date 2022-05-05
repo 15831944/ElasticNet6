@@ -64,7 +64,7 @@ public class NestClient
             result = false;
         }
 
-        if (!result)
+        if (!result && exception is null)
         {
             exception = new Exception("Failed to establish the connection with Elasticsearch.");
         }
