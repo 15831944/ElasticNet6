@@ -40,6 +40,8 @@ public class NestClient
     {
         StaticConnectionPool connectionPool = new(Nodes);
         ConnectionSettings connectionSettings = new(connectionPool);
+        bool result = true;
+        exception = null;
 
         try
         {
@@ -54,15 +56,20 @@ public class NestClient
                 });
 
             elasticClient = new(connectionSettings);
-
-            exception = null;
-            return elasticClient.Cluster.Stats().IsValid;
+            result = elasticClient.Cluster.Stats().IsValid;
         }
         catch (Exception ex)
         {
             exception = ex;
-            return false;
+            result = false;
         }
+
+        if (!result)
+        {
+            exception = new Exception("Failed to establish the connection with Elasticsearch.");
+        }
+
+        return result;
     }
 
     #region Index
@@ -108,6 +115,17 @@ public class NestClient
         errorMessage = result.Acknowledged ? null : result.OriginalException.Message;
 
         return result.Acknowledged;
+    }
+    #endregion
+
+    #region Document
+    public bool TryAddCodeTextsDoc(CodeTextsDoc doc, string indexName, out string? errorMessage)
+    {
+        IndexResponse response = elasticClient.Index(doc, i => i.Index(indexName));
+
+        errorMessage = response.IsValid ? null : response.OriginalException.Message;
+
+        return response.IsValid;
     }
     #endregion
 }

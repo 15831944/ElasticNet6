@@ -1,5 +1,6 @@
 ﻿using Elastic;
 
+#region Connection
 NestClient nestClient = new(
     new string[] { "https://elastic.home:9200" },
     "elastic",
@@ -17,8 +18,8 @@ else
     Console.WriteLine(e!.Message);
     return;
 }
+#endregion
 
-Console.WriteLine("Exit: ESC");
 do
 {
     Console.Write("Index name: ");
