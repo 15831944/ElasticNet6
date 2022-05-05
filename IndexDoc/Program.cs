@@ -1,5 +1,6 @@
 ﻿using Elastic;
 using Elastic.Docs;
+using Nest;
 
 #region Connection
 NestClient nestClient = new(
@@ -23,7 +24,7 @@ else
 }
 #endregion
 
-CodeTextsDoc doc = new CodeTextsDoc();
+CodeTextsDoc doc = new();
 doc.Code = "code123";
 doc.TextParameters = new List<ListItemParameter<string>>
 {
@@ -31,11 +32,82 @@ doc.TextParameters = new List<ListItemParameter<string>>
     new ListItemParameter<string> { Name = "color", Value = "red" }
 };
 
-if (nestClient.TryAddCodeTextsDoc(doc, "test", out string? errorMessage))
+// Tests
+
+Result result;
+string? errorMessage;
+long version;
+
+//
+// Parsing exception
+//
+result = nestClient.IndexCodeTextsDoc(null, "test-1",
+    out errorMessage,
+    out version);
+Console.WriteLine("\nResult: " + result);
+Console.WriteLine("Error: " + (errorMessage ?? "null"));
+Console.WriteLine("Version: " + version);
+//Result: Error
+//Error: Request failed to execute.
+//  Call: Status code 400 from: POST /test-1/_doc.
+//  ServerError:
+//    Type: mapper_parsing_exception
+//    Reason: "failed to parse"
+//    ...
+//Version: 0
+
+//
+// POST /<index name>/_doc/
+//
+for (int i = 0; i < 3; i++)
 {
-    Console.WriteLine("Created.");
+    result = nestClient.IndexCodeTextsDoc(doc, "test-1",
+        out errorMessage,
+        out version);
+
+    Console.WriteLine("\nResult: " + result);
+    Console.WriteLine("Error: " + (errorMessage ?? "null"));
+    Console.WriteLine("Version: " + version);
 }
-else
-{
-    Console.WriteLine(errorMessage);
-}
+//Result: Created
+//Error: null
+//Version: 1
+//Result: Created
+//Error: null
+//Version: 1
+//Result: Created
+//Error: null
+//Version: 1
+
+//
+// ifIndexExists: false
+// 
+result = nestClient.IndexCodeTextsDoc(doc, "test-2",
+    out errorMessage,
+    out version,
+    ifIndexExists: true);
+Console.WriteLine("\nResult: " + result);
+Console.WriteLine("Error: " + (errorMessage ?? "null"));
+Console.WriteLine("Version: " + version);
+//Result: Error
+//Error: Index "test-2" does not exist.
+//Version: 0
+
+//
+// allowUpdate: false
+//
+nestClient.IndexCodeTextsDoc(doc, "test-3",
+    out _,
+    out _,
+    id: "id123");
+result = nestClient.IndexCodeTextsDoc(doc, "test-3",
+    out errorMessage,
+    out version,
+    id: "id123",
+    allowUpdate: false);
+Console.WriteLine("\nResult: " + result);
+Console.WriteLine("Error: " + (errorMessage ?? "null"));
+Console.WriteLine("Version: " + version);
+//Result: Error
+//Error: The document already exists.
+//Version: 0

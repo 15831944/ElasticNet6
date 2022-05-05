@@ -119,13 +119,51 @@ public class NestClient
     #endregion
 
     #region Document
-    public bool TryAddCodeTextsDoc(CodeTextsDoc doc, string indexName, out string? errorMessage)
+    /// <summary>
+    /// Индексирует документ <see cref="CodeTextsDoc"/>.
+    /// </summary>
+    /// <param name="ifIndexExists">Если true, то при отсутствии индекса документ не будет создан.</param>
+    /// <param name="id">Если указан существующий, то его документ будет обновлен.</param>
+    /// <param name="version">Версия проиндексированного документа, начинается с 1.</param>
+    public Result IndexCodeTextsDoc(CodeTextsDoc doc, string indexName, 
+        // out:
+        out string? errorMessage,
+        out long version,
+        // options:
+        bool ifIndexExists = false,
+        bool allowUpdate = true,
+        string? id = null
+        )
     {
-        IndexResponse response = elasticClient.Index(doc, i => i.Index(indexName));
+        version = 0;
 
-        errorMessage = response.IsValid ? null : response.OriginalException.Message;
+        if (ifIndexExists)
+        {
+            ExistsResponse er = elasticClient.Indices.Exists(indexName);
+            
+            if (!er.Exists)
+            {
+                errorMessage = $"Index \"{indexName}\" does not exist.";               
+                return Result.Error;
+            }
+        }
 
-        return response.IsValid;
+        if (!allowUpdate && id is not null)
+        {
+            ExistsResponse er = elasticClient.DocumentExists(new DocumentPath<CodeTextsDoc>(id), s => s.Index(indexName));
+
+            if (er.Exists)
+            {
+                errorMessage = "The document already exists.";
+                return Result.Error;
+            }
+        }
+
+        IndexResponse ir = elasticClient.Index(doc, i => i.Index(indexName).Id(id));
+        errorMessage = ir.IsValid ? null : ir.OriginalException.Message;
+        version = ir.Version;
+        
+        return ir.Result;
     }
     #endregion
 }
