@@ -67,7 +67,7 @@ public class NestClient
 
     #region Index
     /// <summary>
-    /// Создает пустой индекс для <see cref="Docs.CodeTextsDoc"/>.
+    /// Создает пустой индекс для <see cref="CodeTextsDoc"/>.
     /// </summary>
     public CreateIndexResponse CreateIndexOfCodeTextsDoc(string name)
     {
@@ -84,10 +84,30 @@ public class NestClient
                             )
                         )
                     )
+                    .Meta(m => m
+                        .Add("created", DateTime.Now)
+                        .Add("type", typeof(CodeTextsDoc).Name)
+                    )
                 )
             );
 
         return result;
+    }
+
+    /// <summary>
+    /// Создает пустой индекс для <see cref="CodeTextsDoc"/>.
+    /// </summary>
+    /// <param name="errorMessage">
+    /// <see cref="ResponseBase.OriginalException"/>.Message.<br/>
+    /// Содержит сообщение <see cref="ResponseBase.ServerError"/>, если сервер отвечает.
+    /// </param>
+    public bool TryCreateIndexOfCodeTextsDoc(string name, out string? errorMessage)
+    {
+        CreateIndexResponse result = CreateIndexOfCodeTextsDoc(name);
+
+        errorMessage = result.Acknowledged ? null : result.OriginalException.Message;
+
+        return result.Acknowledged;
     }
     #endregion
 }
