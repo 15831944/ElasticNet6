@@ -76,7 +76,10 @@ public class NestClient
     /// <summary>
     /// Создает пустой индекс для <see cref="CodeTextsDoc"/>.
     /// </summary>
-    public CreateIndexResponse CreateIndexOfCodeTextsDoc(string name)
+    public CreateIndexResponse CreateIndexOfCodeTextsDoc(string name,
+        int numberOfShards = 2,
+        int numberOfReplicas = 2
+        )
     {
         CreateIndexResponse result = elasticClient.Indices
             .Create(name, s => s
@@ -96,6 +99,10 @@ public class NestClient
                         .Add("type", typeof(CodeTextsDoc).Name)
                     )
                 )
+                .Settings(s => s
+                    .NumberOfShards(numberOfShards)
+                    .NumberOfReplicas(numberOfReplicas)
+                )
             );
 
         return result;
@@ -108,9 +115,11 @@ public class NestClient
     /// <see cref="ResponseBase.OriginalException"/>.Message.<br/>
     /// Содержит сообщение <see cref="ResponseBase.ServerError"/>, если сервер отвечает.
     /// </param>
-    public bool TryCreateIndexOfCodeTextsDoc(string name, out string? errorMessage)
+    public bool TryCreateIndexOfCodeTextsDoc(string name, out string? errorMessage,
+        int numberOfShards = 2,
+        int numberOfReplicas = 2)
     {
-        CreateIndexResponse result = CreateIndexOfCodeTextsDoc(name);
+        CreateIndexResponse result = CreateIndexOfCodeTextsDoc(name, numberOfShards, numberOfReplicas);
 
         errorMessage = result.Acknowledged ? null : result.OriginalException.Message;
 
