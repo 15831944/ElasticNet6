@@ -1,7 +1,7 @@
-﻿using System.Security.Cryptography.X509Certificates;
-using Elastic.Docs;
+﻿using Elastic.Docs;
 using Elasticsearch.Net;
 using Nest;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Elastic;
 
@@ -73,6 +73,52 @@ public class NestClient
     }
 
     #region Index
+    /// <summary>
+    /// Создает пустой индекс для <see cref="ColorDoc"/>.
+    /// </summary>
+    public CreateIndexResponse CreateIndexOfColorDoc(string name,
+        int numberOfShards = 2,
+        int numberOfReplicas = 2)
+    {
+        CreateIndexResponse result = elasticClient.Indices
+            .Create(name, s => s
+                .Map<ColorDoc>(ms => ms
+                    .Properties(p => p
+                        .Keyword(k => k.Name(n => n.Code))
+                        .Text(t => t.Name(n => n.Name))
+                    )
+                    .Meta(m => m
+                        .Add("created", DateTime.Now)
+                        .Add("type", typeof(CodeTextsDoc).Name)
+                    )
+                )
+                .Settings(s => s
+                    .NumberOfShards(numberOfShards)
+                    .NumberOfReplicas(numberOfReplicas)
+                )
+            );
+
+        return result;
+    }
+
+    /// <summary>
+    /// Создает пустой индекс для <see cref="ColorDoc"/>.
+    /// </summary>
+    /// <param name="errorMessage">
+    /// <see cref="ResponseBase.OriginalException"/>.Message.<br/>
+    /// Содержит сообщение <see cref="ResponseBase.ServerError"/>, если сервер отвечает.
+    /// </param>
+    public bool TryCreateIndexOfColorDoc(string name, out string? errorMessage,
+        int numberOfShards = 2,
+        int numberOfReplicas = 2)
+    {
+        CreateIndexResponse result = CreateIndexOfColorDoc(name, numberOfShards, numberOfReplicas);
+
+        errorMessage = result.Acknowledged ? null : result.OriginalException.Message;
+
+        return result.Acknowledged;
+    }
+
     /// <summary>
     /// Создает пустой индекс для <see cref="CodeTextsDoc"/>.
     /// </summary>

@@ -34,7 +34,7 @@ do
 
     try
     {
-        var result = nestClient.CreateIndexOfCodeTextsDoc(indexName);
+        var result = nestClient.CreateIndexOfColorDoc(indexName);
 
         if (result.Acknowledged)
         {
