@@ -74,7 +74,7 @@ public class NestClient
 
     #region Index
     /// <summary>
-    /// Создает пустой индекс для <see cref="ColorDoc"/>.
+    /// Creates an empty index with type <see cref="ColorDoc"/>.
     /// </summary>
     public CreateIndexResponse CreateIndexOfColorDoc(string name,
         int numberOfShards = 2,
@@ -102,11 +102,11 @@ public class NestClient
     }
 
     /// <summary>
-    /// Создает пустой индекс для <see cref="ColorDoc"/>.
+    /// Creates an empty index with type <see cref="ColorDoc"/>.
     /// </summary>
     /// <param name="errorMessage">
     /// <see cref="ResponseBase.OriginalException"/>.Message.<br/>
-    /// Содержит сообщение <see cref="ResponseBase.ServerError"/>, если сервер отвечает.
+    /// Contains a <see cref="ResponseBase.ServerError"/> message if the server is not responding.
     /// </param>
     public bool TryCreateIndexOfColorDoc(string name, out string? errorMessage,
         int numberOfShards = 2,
@@ -120,7 +120,7 @@ public class NestClient
     }
 
     /// <summary>
-    /// Создает пустой индекс для <see cref="CodeTextsDoc"/>.
+    /// Creates an empty index with type <see cref="CodeTextsDoc"/>.
     /// </summary>
     public CreateIndexResponse CreateIndexOfCodeTextsDoc(string name,
         int numberOfShards = 2,
@@ -155,11 +155,11 @@ public class NestClient
     }
 
     /// <summary>
-    /// Создает пустой индекс для <see cref="CodeTextsDoc"/>.
+    /// Creates an empty index with type <see cref="CodeTextsDoc"/>.
     /// </summary>
     /// <param name="errorMessage">
     /// <see cref="ResponseBase.OriginalException"/>.Message.<br/>
-    /// Содержит сообщение <see cref="ResponseBase.ServerError"/>, если сервер отвечает.
+    /// Contains a <see cref="ResponseBase.ServerError"/> message if the server is not responding.
     /// </param>
     public bool TryCreateIndexOfCodeTextsDoc(string name, out string? errorMessage,
         int numberOfShards = 2,
@@ -175,11 +175,11 @@ public class NestClient
 
     #region Document
     /// <summary>
-    /// Индексирует документ <see cref="CodeTextsDoc"/>.
+    /// Indexes a document of type <see cref="CodeTextsDoc"/>.
     /// </summary>
-    /// <param name="ifIndexExists">Если true, то при отсутствии индекса документ не будет создан.</param>
-    /// <param name="id">Если указан существующий, то его документ будет обновлен.</param>
-    /// <param name="version">Версия проиндексированного документа, начинается с 1.</param>
+    /// <param name="ifIndexExists">If true, then the document will not be created if there is no index.</param>
+    /// <param name="id">If specified, then its document will be updated.</param>
+    /// <param name="version">The indexed document version, starts at 1.</param>
     public Result IndexCodeTextsDoc(CodeTextsDoc doc, string indexName, 
         // out:
         out string? errorMessage,
