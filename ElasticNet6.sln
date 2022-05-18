@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NestClient", "NestClient\Ne
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CreateIndex", "CreateIndex\CreateIndex.csproj", "{781CE40F-2914-4635-8AA9-6ED10FC096C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IndexDoc", "IndexDoc\IndexDoc.csproj", "{7483786D-7B47-4DB6-AC5B-02BE641D4AC5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IndexDoc", "IndexDoc\IndexDoc.csproj", "{7483786D-7B47-4DB6-AC5B-02BE641D4AC5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkIndex_ColorDoc", "BulkIndex_ColorDoc\BulkIndex_ColorDoc.csproj", "{8E1DC2F4-9CBB-457D-BFF2-4D419129FF54}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{7483786D-7B47-4DB6-AC5B-02BE641D4AC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7483786D-7B47-4DB6-AC5B-02BE641D4AC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7483786D-7B47-4DB6-AC5B-02BE641D4AC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E1DC2F4-9CBB-457D-BFF2-4D419129FF54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E1DC2F4-9CBB-457D-BFF2-4D419129FF54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E1DC2F4-9CBB-457D-BFF2-4D419129FF54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E1DC2F4-9CBB-457D-BFF2-4D419129FF54}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

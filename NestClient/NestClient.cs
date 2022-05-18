@@ -221,4 +221,43 @@ public class NestClient
         return ir.Result;
     }
     #endregion
+
+    #region Bulk
+    public void BulkIndex<TDoc>(string indexName, IEnumerable<TDoc> colors,
+        // out:
+        out long totalNumberOfRetries,
+        out long totalNumberOfFailedBuffers,
+        // settings:
+        string timeBetweenRetries = "5s",
+        int numberOfRetries = 2,
+        int portionSize = 5000,
+        int maximumRuntimeSeconds = 60,
+        // handlers:
+        Action<BulkResponse>? bulkResponseCallback = null,
+        Action<BulkResponseItemBase, TDoc>? droppedDocumentCallback = null,
+        Func<BulkResponseItemBase, TDoc, bool>? retryDocumentPredicate = null,
+        Action<BulkAllResponse>? onNext = null
+        ) where TDoc : class
+    {
+        BulkAllObservable<TDoc> observable = elasticClient.BulkAll(colors, b => b
+            .Index(indexName)
+            .Size(portionSize)
+
+            .BackOffTime(timeBetweenRetries)
+            .BackOffRetries(numberOfRetries)
+
+            .BulkResponseCallback(bulkResponseCallback)
+            .DroppedDocumentCallback(droppedDocumentCallback)
+            .RetryDocumentPredicate(retryDocumentPredicate)
+            
+            .RefreshOnCompleted()
+            .ContinueAfterDroppedDocuments()
+            .MaxDegreeOfParallelism(Environment.ProcessorCount));
+
+        BulkAllObserver observer = observable.Wait(TimeSpan.FromSeconds(maximumRuntimeSeconds), onNext);
+
+        totalNumberOfRetries = observer.TotalNumberOfRetries;
+        totalNumberOfFailedBuffers = observer.TotalNumberOfFailedBuffers;
+    }
+    #endregion
 }
