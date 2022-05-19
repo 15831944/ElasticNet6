@@ -223,16 +223,36 @@ public class NestClient
     #endregion
 
     #region Bulk
-    public bool BulkIndex<TDoc>(string indexName, IEnumerable<TDoc> colors,
+    /// <summary>
+    /// Bulk indexing of documents with an additional request to refresh the index after ALL bulk operations have been performed.
+    /// </summary>
+    /// 
+    /// <param name="bulkResponseCallback">Be notified every time a bulk response returns, this includes retries.</param>
+    /// <param name="retryDocumentPredicate">
+    /// A predicate to control which documents should be retried.<br/>
+    /// Defaults to failed bulk items with a HTTP 429 (Too Many Requests) response status code.
+    /// </param>
+    /// <param name="droppedDocumentCallback">
+    /// If a bulk operation fails because it receives documents it can not retry they will be fed to this callback.<br/>
+    /// If <paramref name="continueAfterDroppedDocuments"/> is set to <c>true</c> processing will continue,<br/>
+    /// so this callback can be used to feed into a dead letter queue.<br/>
+    /// Otherwise bulk all indexing will be halted.
+    /// </param>
+    /// 
+    /// <returns>
+    /// <code><paramref name="e"/> is null</code>
+    /// </returns>
+    public bool BulkIndex<TDoc>(string indexName, IEnumerable<TDoc> docs,
         // out:
         out long totalNumberOfRetries,
         out long totalNumberOfFailedBuffers,
         out Exception? e,
         // settings:
-        string timeBetweenRetries = "5s",
+        string timeBetweenRetries = "2s",
         int numberOfRetries = 2,
         int portionSize = 5000,
         int maximumRuntimeSeconds = 60,
+        bool continueAfterDroppedDocuments = true,
         // handlers:
         Action<BulkResponse>? bulkResponseCallback = null,
         Action<BulkResponseItemBase, TDoc>? droppedDocumentCallback = null,
@@ -240,7 +260,7 @@ public class NestClient
         Action<BulkAllResponse>? onNext = null
         ) where TDoc : class
     {
-        BulkAllObservable<TDoc> observable = elasticClient.BulkAll(colors, b => b
+        BulkAllObservable<TDoc> observable = elasticClient.BulkAll(docs, b => b
             .Index(indexName)
             .Size(portionSize)
 
@@ -250,15 +270,15 @@ public class NestClient
             .BulkResponseCallback(bulkResponseCallback)
             .RetryDocumentPredicate(retryDocumentPredicate)
             .DroppedDocumentCallback(droppedDocumentCallback)
-            
+
             .RefreshOnCompleted()
-            .ContinueAfterDroppedDocuments()
+            .ContinueAfterDroppedDocuments(continueAfterDroppedDocuments)
             .MaxDegreeOfParallelism(Environment.ProcessorCount));
 
         try
         {
             BulkAllObserver observer = observable.Wait(TimeSpan.FromSeconds(maximumRuntimeSeconds), onNext);
-            
+
             totalNumberOfRetries = observer.TotalNumberOfRetries;
             totalNumberOfFailedBuffers = observer.TotalNumberOfFailedBuffers;
             e = null;

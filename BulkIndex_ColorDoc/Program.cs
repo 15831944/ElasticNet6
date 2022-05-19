@@ -22,51 +22,49 @@ else
 }
 #endregion
 
-static IEnumerable<ColorDoc> GenColorDoc(int count)
+static IEnumerable<NameValueDoc<string, string>> GenDocs(int count)
 {
     for (int i = 0; i < count; i++)
     {
-        yield return new ColorDoc
+        yield return new NameValueDoc<string, string>
         {
-            Code = $"#{i}",
-            Name = $"color-{i}"
+            Name = "color",
+            Value = i == 5
+                ? $"Consolas" // invalid
+                : $"#{i}" // valid
         };
     }
 }
 
-#region Handlers
 int indexed = 0;
+string GetBulkAllResponseString(BulkAllResponse r) => $"page: {r.Page}, count: {r.Items.Count}, retries: {r.Retries}, total: {Interlocked.Add(ref indexed, r.Items.Count)}";
 
-Action<BulkAllResponse> onNext = (response) =>
+// Short waiting time.
+void Test1()
 {
-    Console.WriteLine($"page: {response.Page}, count: {response.Items.Count}, total: {Interlocked.Add(ref indexed, response.Items.Count)}");
-};
-#endregion
+    if (!nestClient.BulkIndex("col ors", GenDocs(100000), out long _, out long _, out Exception? ex,
+        maximumRuntimeSeconds: 1,
+        portionSize: 1000,
+        onNext: bulkAllResponse => Console.WriteLine(GetBulkAllResponseString(bulkAllResponse))))
+    {
+        Console.WriteLine("error: " + ex!.Message);
+    }
 
-#region Test 1, Wait(), short waiting time.
-Console.WriteLine("test 1");
-
-if (!nestClient.BulkIndex("color-docs", GenColorDoc(100_000), out long _, out long _, out Exception? ex,
-    portionSize: 100,
-    onNext: onNext,
-    maximumRuntimeSeconds: 1))
-{
-    Console.WriteLine(ex!.Message);
+    //page: 1, count: 1000, retries: 0, total: 3000
+    //page: 0, count: 1000, retries: 0, total: 4000
+    //page: 3, count: 1000, retries: 0, total: 2000
+    //page: 2, count: 1000, retries: 0, total: 1000
+    //page: 4, count: 1000, retries: 0, total: 5000
+    //page: 5, count: 1000, retries: 0, total: 6000
+    //page: 6, count: 1000, retries: 0, total: 7000
+    //page: 7, count: 1000, retries: 0, total: 8000
+    //page: 8, count: 1000, retries: 0, total: 9000
+    //page: 9, count: 1000, retries: 0, total: 10000
+    //page: 10, count: 1000, retries: 0, total: 11000
+    //page: 11, count: 1000, retries: 0, total: 12000
+    //page: 12, count: 1000, retries: 0, total: 13000
+    //page: 13, count: 1000, retries: 0, total: 14000
+    //page: 14, count: 1000, retries: 0, total: 15000
 }
 
-//test 1
-//page: 0, count: 100, total: 100
-//page: 1, count: 100, total: 200
-//page: 4, count: 100, total: 300
-//page: 2, count: 100, total: 400
-//page: 3, count: 100, total: 500
-//page: 5, count: 100, total: 600
-//page: 6, count: 100, total: 700
-//page: 7, count: 100, total: 800
-//page: 8, count: 100, total: 900
-//page: 9, count: 100, total: 1000
-//page: 11, count: 100, total: 1100
-//page: 10, count: 100, total: 1200
-//page: 12, count: 100, total: 1300
-//page: 13, count: 100, total: 1400
-#endregion
+Test1();
