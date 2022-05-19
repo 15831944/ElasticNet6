@@ -224,21 +224,8 @@ public class NestClient
 
     #region Bulk
     /// <summary>
-    /// Bulk indexing of documents with an additional request to refresh the index after ALL bulk operations have been performed.
+    /// Bulk indexing of documents with an additional request to refresh the index after all bulk operations have been performed.
     /// </summary>
-    /// 
-    /// <param name="bulkResponseCallback">Be notified every time a bulk response returns, this includes retries.</param>
-    /// <param name="retryDocumentPredicate">
-    /// A predicate to control which documents should be retried.<br/>
-    /// Defaults to failed bulk items with a HTTP 429 (Too Many Requests) response status code.
-    /// </param>
-    /// <param name="droppedDocumentCallback">
-    /// If a bulk operation fails because it receives documents it can not retry they will be fed to this callback.<br/>
-    /// If <paramref name="continueAfterDroppedDocuments"/> is set to <c>true</c> processing will continue,<br/>
-    /// so this callback can be used to feed into a dead letter queue.<br/>
-    /// Otherwise bulk all indexing will be halted.
-    /// </param>
-    /// 
     /// <returns>
     /// <code><paramref name="e"/> is null</code>
     /// </returns>
