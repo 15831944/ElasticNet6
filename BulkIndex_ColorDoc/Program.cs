@@ -29,9 +29,7 @@ static IEnumerable<NameValueDoc<string, string>> GenDocs(int count)
         yield return new NameValueDoc<string, string>
         {
             Name = "color",
-            Value = i == 5
-                ? $"Consolas" // invalid
-                : $"#{i}" // valid
+            Value = $"#{i}"
         };
     }
 }
