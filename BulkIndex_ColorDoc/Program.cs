@@ -39,10 +39,9 @@ static IEnumerable<NameValueDoc<string, string>> GenDocs(int count)
 int indexed = 0;
 string GetBulkAllResponseString(BulkAllResponse r) => $"page: {r.Page}, count: {r.Items.Count}, retries: {r.Retries}, total: {Interlocked.Add(ref indexed, r.Items.Count)}";
 
-// Short waiting time.
 void Test1()
 {
-    if (!nestClient.BulkIndex("col ors", GenDocs(100000), out long _, out long _, out Exception? ex,
+    if (!nestClient.BulkIndex("colors", GenDocs(100000), out long _, out long _, out Exception? ex,
         maximumRuntimeSeconds: 1,
         portionSize: 1000,
         onNext: bulkAllResponse => Console.WriteLine(GetBulkAllResponseString(bulkAllResponse))))
@@ -67,4 +66,8 @@ void Test1()
     //page: 14, count: 1000, retries: 0, total: 15000
 }
 
-Test1();
+
+
+
+
+Test1(); // Short waiting time.
