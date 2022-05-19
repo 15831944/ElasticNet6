@@ -1,6 +1,6 @@
 ﻿using Elastic;
 using Elastic.Docs;
-using Nest;
+using System.Diagnostics;
 
 #region Connection
 NestClient nestClient = new(
@@ -23,3 +23,40 @@ else
     return;
 }
 #endregion
+
+static IEnumerable<NameValueDoc<string, string>> GenDocs(int count)
+{
+    for (int i = 0; i < count; i++)
+    {
+        yield return new NameValueDoc<string, string>
+        {
+            Name = "color",
+            Value = $"#{i}"
+        };
+    }
+}
+
+int total = 1000;
+Stopwatch sw = new();
+
+sw.Start();
+foreach (var doc in GenDocs(total))
+{
+    nestClient.IndexDoc(doc, "test-1", out _, out _);
+}
+sw.Stop();
+Console.WriteLine($"test-1: {sw.Elapsed.TotalSeconds}s");
+
+sw.Restart();
+nestClient.BulkIndex("test-2", GenDocs(total), out _, out _, out _);
+sw.Stop();
+Console.WriteLine($"test-2: {sw.Elapsed.TotalSeconds}s");
+
+//test-1: 82,2295682s
+//test-2: 1,4037853s
+
+//test-1: 81,8809305s
+//test-2: 0,4470201s
+
+//test-1: 82,3672316s
+//test-2: 0,4208362s
