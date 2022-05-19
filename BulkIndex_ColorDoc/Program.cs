@@ -39,23 +39,34 @@ int indexed = 0;
 
 Action<BulkAllResponse> onNext = (response) =>
 {
-    Console.WriteLine($"page: {response.Page}, items count: {Interlocked.Add(ref indexed, response.Items.Count)}");
+    Console.WriteLine($"page: {response.Page}, count: {response.Items.Count}, total: {Interlocked.Add(ref indexed, response.Items.Count)}");
 };
 #endregion
 
-//
-// Test 1
-// Wait()
-//
-Console.WriteLine("Test 1");
+#region Test 1, Wait(), short waiting time.
+Console.WriteLine("test 1");
 
-nestClient.BulkIndex("color-docs", GenColorDoc(100_000), out long _, out long _,
+if (!nestClient.BulkIndex("color-docs", GenColorDoc(100_000), out long _, out long _, out Exception? ex,
     portionSize: 100,
     onNext: onNext,
-    maximumRuntimeSeconds: 1);
-//page: 0, items count: 100
-//page: 3, items count: 200
-//page: 1, items count: 300
-//page: 2, items count: 400
-//...
-//page: 15, items count: 1600
+    maximumRuntimeSeconds: 1))
+{
+    Console.WriteLine(ex!.Message);
+}
+
+//test 1
+//page: 0, count: 100, total: 100
+//page: 1, count: 100, total: 200
+//page: 4, count: 100, total: 300
+//page: 2, count: 100, total: 400
+//page: 3, count: 100, total: 500
+//page: 5, count: 100, total: 600
+//page: 6, count: 100, total: 700
+//page: 7, count: 100, total: 800
+//page: 8, count: 100, total: 900
+//page: 9, count: 100, total: 1000
+//page: 11, count: 100, total: 1100
+//page: 10, count: 100, total: 1200
+//page: 12, count: 100, total: 1300
+//page: 13, count: 100, total: 1400
+#endregion

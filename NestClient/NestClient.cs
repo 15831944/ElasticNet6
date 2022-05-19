@@ -223,10 +223,11 @@ public class NestClient
     #endregion
 
     #region Bulk
-    public void BulkIndex<TDoc>(string indexName, IEnumerable<TDoc> colors,
+    public bool BulkIndex<TDoc>(string indexName, IEnumerable<TDoc> colors,
         // out:
         out long totalNumberOfRetries,
         out long totalNumberOfFailedBuffers,
+        out Exception? e,
         // settings:
         string timeBetweenRetries = "5s",
         int numberOfRetries = 2,
@@ -247,17 +248,29 @@ public class NestClient
             .BackOffRetries(numberOfRetries)
 
             .BulkResponseCallback(bulkResponseCallback)
-            .DroppedDocumentCallback(droppedDocumentCallback)
             .RetryDocumentPredicate(retryDocumentPredicate)
+            .DroppedDocumentCallback(droppedDocumentCallback)
             
             .RefreshOnCompleted()
             .ContinueAfterDroppedDocuments()
             .MaxDegreeOfParallelism(Environment.ProcessorCount));
 
-        BulkAllObserver observer = observable.Wait(TimeSpan.FromSeconds(maximumRuntimeSeconds), onNext);
+        try
+        {
+            BulkAllObserver observer = observable.Wait(TimeSpan.FromSeconds(maximumRuntimeSeconds), onNext);
+            
+            totalNumberOfRetries = observer.TotalNumberOfRetries;
+            totalNumberOfFailedBuffers = observer.TotalNumberOfFailedBuffers;
+            e = null;
+        }
+        catch (Exception ex)
+        {
+            totalNumberOfRetries = -1;
+            totalNumberOfFailedBuffers = -1;
+            e = ex;
+        }
 
-        totalNumberOfRetries = observer.TotalNumberOfRetries;
-        totalNumberOfFailedBuffers = observer.TotalNumberOfFailedBuffers;
+        return e is null;
     }
     #endregion
 }
