@@ -175,12 +175,12 @@ public class NestClient
 
     #region Document
     /// <summary>
-    /// Indexes a document of type <see cref="CodeTextsDoc"/>.
+    /// Indexes the document.
     /// </summary>
     /// <param name="ifIndexExists">If true, then the document will not be created if there is no index.</param>
     /// <param name="id">If specified, then its document will be updated.</param>
     /// <param name="version">The indexed document version, starts at 1.</param>
-    public Result IndexCodeTextsDoc(CodeTextsDoc doc, string indexName, 
+    public Result IndexDoc<TDoc>(TDoc doc, string indexName, 
         // out:
         out string? errorMessage,
         out long version,
@@ -188,7 +188,7 @@ public class NestClient
         bool ifIndexExists = false,
         bool allowUpdate = true,
         string? id = null
-        )
+        ) where TDoc : class
     {
         version = 0;
 
@@ -205,7 +205,7 @@ public class NestClient
 
         if (!allowUpdate && id is not null)
         {
-            ExistsResponse er = elasticClient.DocumentExists(new DocumentPath<CodeTextsDoc>(id), s => s.Index(indexName));
+            ExistsResponse er = elasticClient.DocumentExists(new DocumentPath<TDoc>(id), s => s.Index(indexName));
 
             if (er.Exists)
             {
