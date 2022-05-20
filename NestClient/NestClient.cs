@@ -89,7 +89,7 @@ public class NestClient
                     )
                     .Meta(m => m
                         .Add("created", DateTime.Now)
-                        .Add("type", typeof(CodeTextsDoc).Name)
+                        .Add("type", typeof(ColorDoc).Name)
                     )
                 )
                 .Settings(s => s
@@ -236,7 +236,7 @@ public class NestClient
     /// 
     /// <param name="retryDocumentPredicate">
     /// A predicate to control which documents should be retried.<br/>
-    /// If the number of retries exceeds the maximum value set in the methods <see cref="BulkAllDescriptor{T}.BackOffRetries(int?)"/>, the method will fail.
+    /// If the number of retries exceeds the maximum value set in the methods <see cref="BulkAllDescriptor{T}.BackOffRetries(int?)"/> the method will fail.
     /// </param>
     /// 
     /// <param name="onNext">

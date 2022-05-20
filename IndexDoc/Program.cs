@@ -24,12 +24,10 @@ else
 }
 #endregion
 
-CodeTextsDoc doc = new();
-doc.Code = "code123";
-doc.TextParameters = new List<ListItemParameter<string>>
+ColorDoc doc = new()
 {
-    new ListItemParameter<string> { Name = "car", Value = "BMW" },
-    new ListItemParameter<string> { Name = "color", Value = "red" }
+    Code = "#f00",
+    Name = "red"
 };
 
 // Tests
