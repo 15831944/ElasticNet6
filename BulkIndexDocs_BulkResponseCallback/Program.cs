@@ -88,4 +88,4 @@ void Test2_CatchingErrors()
 }
 
 //Test1_InvalidIndexName();
-Test2_CatchingErrors();
+//Test2_CatchingErrors();
