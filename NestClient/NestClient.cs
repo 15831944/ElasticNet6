@@ -229,7 +229,14 @@ public class NestClient
     /// 
     /// <param name="bulkResponseCallback">
     /// Intercepts the <see cref="BulkResponse"/> for each batch.<br/>
-    /// Contains an <see cref="BulkResponse.Errors">error code flag</see>.
+    /// Contains an <see cref="BulkResponse.Errors">error code flag</see>,
+    /// <see cref="ResponseBase.DebugInformation">debug information</see>,
+    /// <see cref="ResponseBase.OriginalException">original</see> and <see cref="ResponseBase.ServerError">server</see> errors.
+    /// </param>
+    /// 
+    /// <param name="retryDocumentPredicate">
+    /// A predicate to control which documents should be retried.<br/>
+    /// If the number of retries exceeds the maximum value set in the methods <see cref="BulkAllDescriptor{T}.BackOffRetries(int?)"/>, the method will fail.
     /// </param>
     /// 
     /// <param name="onNext">

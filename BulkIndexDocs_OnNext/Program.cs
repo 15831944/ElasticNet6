@@ -54,19 +54,21 @@ void Test1_ShortWaitingTime()
     }
 
     // Output:
-    //{"Page":0,"Retries":0,"CurrentTotal":1000,"ItemsWithErrorsCount":0,"ItemsByStatus":{"201":1000},"ErrorsReasons":[]}
-    //{"Page":1,"Retries":0,"CurrentTotal":2000,"ItemsWithErrorsCount":0,"ItemsByStatus":{"201":1000},"ErrorsReasons":[]}
-    //{"Page":2,"Retries":0,"CurrentTotal":3000,"ItemsWithErrorsCount":0,"ItemsByStatus":{"201":1000},"ErrorsReasons":[]}
-    //{"Page":3,"Retries":0,"CurrentTotal":4000,"ItemsWithErrorsCount":0,"ItemsByStatus":{"201":1000},"ErrorsReasons":[]}
-    //{"Page":4,"Retries":0,"CurrentTotal":5000,"ItemsWithErrorsCount":0,"ItemsByStatus":{"201":1000},"ErrorsReasons":[]}
-    //{"Page":5,"Retries":0,"CurrentTotal":6000,"ItemsWithErrorsCount":0,"ItemsByStatus":{"201":1000},"ErrorsReasons":[]}
-    //{"Page":6,"Retries":0,"CurrentTotal":7000,"ItemsWithErrorsCount":0,"ItemsByStatus":{"201":1000},"ErrorsReasons":[]}
-    //{"Page":7,"Retries":0,"CurrentTotal":8000,"ItemsWithErrorsCount":0,"ItemsByStatus":{"201":1000},"ErrorsReasons":[]}
-    //{"Page":8,"Retries":0,"CurrentTotal":9000,"ItemsWithErrorsCount":0,"ItemsByStatus":{"201":1000},"ErrorsReasons":[]}
-    //{"Page":9,"Retries":0,"CurrentTotal":10000,"ItemsWithErrorsCount":0,"ItemsByStatus":{"201":1000},"ErrorsReasons":[]}
-    //{"Page":10,"Retries":0,"CurrentTotal":11000,"ItemsWithErrorsCount":0,"ItemsByStatus":{"201":1000},"ErrorsReasons":[]}
+    // {"Page":0,"Retries":0,"CurrentTotal":1000,"ItemsWithErrorsCount":0,"ItemsByStatus":{"201":1000},"ErrorsReasons":[]}
+    // {"Page":1,"Retries":0,"CurrentTotal":2000,"ItemsWithErrorsCount":0,"ItemsByStatus":{"201":1000},"ErrorsReasons":[]}
+    // {"Page":2,"Retries":0,"CurrentTotal":3000,"ItemsWithErrorsCount":0,"ItemsByStatus":{"201":1000},"ErrorsReasons":[]}
+    // {"Page":3,"Retries":0,"CurrentTotal":4000,"ItemsWithErrorsCount":0,"ItemsByStatus":{"201":1000},"ErrorsReasons":[]}
+    // {"Page":4,"Retries":0,"CurrentTotal":5000,"ItemsWithErrorsCount":0,"ItemsByStatus":{"201":1000},"ErrorsReasons":[]}
+    // {"Page":5,"Retries":0,"CurrentTotal":6000,"ItemsWithErrorsCount":0,"ItemsByStatus":{"201":1000},"ErrorsReasons":[]}
+    // {"Page":6,"Retries":0,"CurrentTotal":7000,"ItemsWithErrorsCount":0,"ItemsByStatus":{"201":1000},"ErrorsReasons":[]}
+    // {"Page":7,"Retries":0,"CurrentTotal":8000,"ItemsWithErrorsCount":0,"ItemsByStatus":{"201":1000},"ErrorsReasons":[]}
+    // {"Page":8,"Retries":0,"CurrentTotal":9000,"ItemsWithErrorsCount":0,"ItemsByStatus":{"201":1000},"ErrorsReasons":[]}
+    // {"Page":9,"Retries":0,"CurrentTotal":10000,"ItemsWithErrorsCount":0,"ItemsByStatus":{"201":1000},"ErrorsReasons":[]}
+    // {"Page":10,"Retries":0,"CurrentTotal":11000,"ItemsWithErrorsCount":0,"ItemsByStatus":{"201":1000},"ErrorsReasons":[]}
 
-    // All responses have status 201.
+    // Summary:
+    // 1. No exception was thrown.
+    // 2. All responses have status 201.
 }
 
 void Test2_InvalidIndexName()
@@ -88,13 +90,16 @@ void Test2_InvalidIndexName()
     }
 
     // Output:
-    //{"Page":3,"Retries":0,"CurrentTotal":250,"ItemsWithErrorsCount":250,"ItemsByStatus":{"400":250},"ErrorsReasons":["Invalid index name [te st], must not contain the following characters [ , \", *, \\, <, |, ,, >, /, ?]"]}
-    //{"Page":2,"Retries":0,"CurrentTotal":750,"ItemsWithErrorsCount":250,"ItemsByStatus":{"400":250},"ErrorsReasons":["Invalid index name [te st], must not contain the following characters [ , \", *, \\, <, |, ,, >, /, ?]"]}
-    //{"Page":0,"Retries":0,"CurrentTotal":500,"ItemsWithErrorsCount":250,"ItemsByStatus":{"400":250},"ErrorsReasons":["Invalid index name [te st], must not contain the following characters [ , \", *, \\, <, |, ,, >, /, ?]"]}
-    //{"Page":1,"Retries":0,"CurrentTotal":1000,"ItemsWithErrorsCount":250,"ItemsByStatus":{"400":250},"ErrorsReasons":["Invalid index name [te st], must not contain the following characters [ , \", *, \\, <, |, ,, >, /, ?]"]}
-    //Error: Refreshing after all documents have indexed failed
+    // {"Page":3,"Retries":0,"CurrentTotal":250,"ItemsWithErrorsCount":250,"ItemsByStatus":{"400":250},"ErrorsReasons":["Invalid index name [te st], must not contain the following characters [ , \", *, \\, <, |, ,, >, /, ?]"]}
+    // {"Page":2,"Retries":0,"CurrentTotal":750,"ItemsWithErrorsCount":250,"ItemsByStatus":{"400":250},"ErrorsReasons":["Invalid index name [te st], must not contain the following characters [ , \", *, \\, <, |, ,, >, /, ?]"]}
+    // {"Page":0,"Retries":0,"CurrentTotal":500,"ItemsWithErrorsCount":250,"ItemsByStatus":{"400":250},"ErrorsReasons":["Invalid index name [te st], must not contain the following characters [ , \", *, \\, <, |, ,, >, /, ?]"]}
+    // {"Page":1,"Retries":0,"CurrentTotal":1000,"ItemsWithErrorsCount":250,"ItemsByStatus":{"400":250},"ErrorsReasons":["Invalid index name [te st], must not contain the following characters [ , \", *, \\, <, |, ,, >, /, ?]"]}
+    // Error: Refreshing after all documents have indexed failed
 
-    // All responses have status 400.
+    // Summary:
+    // 1. All batches has been sent but failed.
+    // 2. The exception was thrown after all batches were sent.
+    // 3. All responses have status 400.
 }
 
 void Test3_CatchingErrors()
@@ -117,9 +122,11 @@ void Test3_CatchingErrors()
     }
 
     // Output:
-    //Error: Error on #300.
+    // Error: Error on #300.
 
-    // GET /test/_count --> 250
+    // Summary:
+    // 1. The exception has been thrown.
+    // 2. GET /test/_count --> 250
 }
 
 //Test1_ShortWaitingTime();
