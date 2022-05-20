@@ -41,7 +41,7 @@ long version;
 //
 // Parsing exception
 //
-result = nestClient.IndexDoc<ColorDoc>(null, "test-1",
+result = nestClient.IndexDoc<ColorDoc>("test-1", null,
     out errorMessage,
     out version);
 Console.WriteLine("\nResult: " + result);
@@ -61,7 +61,7 @@ Console.WriteLine("Version: " + version);
 //
 for (int i = 0; i < 3; i++)
 {
-    result = nestClient.IndexDoc(doc, "test-1",
+    result = nestClient.IndexDoc("test-1", doc,
         out errorMessage,
         out version);
 
@@ -82,7 +82,7 @@ for (int i = 0; i < 3; i++)
 //
 // ifIndexExists: false
 // 
-result = nestClient.IndexDoc(doc, "test-2",
+result = nestClient.IndexDoc("test-2", doc,
     out errorMessage,
     out version,
     ifIndexExists: true);
@@ -96,11 +96,11 @@ Console.WriteLine("Version: " + version);
 //
 // allowUpdate: false
 //
-nestClient.IndexDoc(doc, "test-3",
+nestClient.IndexDoc("test-3", doc,
     out _,
     out _,
     id: "id123");
-result = nestClient.IndexDoc(doc, "test-3",
+result = nestClient.IndexDoc("test-3", doc,
     out errorMessage,
     out version,
     id: "id123",

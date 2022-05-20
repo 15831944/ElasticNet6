@@ -180,7 +180,7 @@ public class NestClient
     /// <param name="ifIndexExists">If true, then the document will not be created if there is no index.</param>
     /// <param name="id">If specified, then its document will be updated.</param>
     /// <param name="version">The indexed document version, starts at 1.</param>
-    public Result IndexDoc<TDoc>(TDoc doc, string indexName, 
+    public Result IndexDoc<TDoc>(string indexName, TDoc doc,
         // out:
         out string? errorMessage,
         out long version,

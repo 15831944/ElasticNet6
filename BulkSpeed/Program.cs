@@ -42,7 +42,7 @@ Stopwatch sw = new();
 sw.Start();
 foreach (var doc in GenDocs(total))
 {
-    nestClient.IndexDoc(doc, "test-1", out _, out _);
+    nestClient.IndexDoc("test-1", doc, out _, out _);
 }
 sw.Stop();
 Console.WriteLine($"test-1: {sw.Elapsed.TotalSeconds}s");
