@@ -226,6 +226,13 @@ public class NestClient
     /// <summary>
     /// Bulk indexing of documents with an additional request to refresh the index after all bulk operations have been performed.
     /// </summary>
+    /// 
+    /// <param name="onNext">
+    /// Intercepts the <see cref="BulkAllResponse"/> for each batch.<br/>
+    /// Contains <see cref="BulkAllResponse.Page">the number of the batch</see>, its <see cref="BulkAllResponse.Items">items</see> and <see cref="BulkAllResponse.Retries">retries</see>.
+    /// Called only for successful batches.
+    /// </param>
+    /// 
     /// <returns>
     /// <code><paramref name="e"/> is null</code>
     /// </returns>
