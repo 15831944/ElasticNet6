@@ -12,9 +12,13 @@ connectionSettings.DisableDirectStreaming(true);
 ElasticClient client = new(connectionSettings);
 
 // Test
+
+// POST index-1/_doc/1
+// { }
+
 Func<GetDescriptor<object>, IGetRequest> getSelector = s => s.Index("index-1");
 var doc_1 = client.Get<object>("1", getSelector); // exists
-var doc_2 = client.Get<object>("2", getSelector); // does not exists
+var doc_2 = client.Get<object>("2", getSelector); // does not exist
 
 Console.WriteLine(doc_1.Found);
 if (!doc_1.Found)
