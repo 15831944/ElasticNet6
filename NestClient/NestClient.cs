@@ -263,6 +263,7 @@ public class NestClient
         out long totalNumberOfRetries,
         out long totalNumberOfFailedBuffers,
         out Exception? e,
+        CancellationToken? cancellationToken = null,
         // settings:
         string timeBetweenRetries = "2s",
         int numberOfRetries = 2,
@@ -289,7 +290,7 @@ public class NestClient
 
             .RefreshOnCompleted()
             .ContinueAfterDroppedDocuments(continueAfterDroppedDocuments)
-            .MaxDegreeOfParallelism(Environment.ProcessorCount));
+            .MaxDegreeOfParallelism(Environment.ProcessorCount), cancellationToken ?? default);
 
         try
         {

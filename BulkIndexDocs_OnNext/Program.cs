@@ -129,4 +129,4 @@ void Test3_CatchingErrors()
 
 //Test1_ShortWaitingTime();
 //Test2_InvalidIndexName();
-Test3_CatchingErrors();
+//Test3_CatchingErrors();
