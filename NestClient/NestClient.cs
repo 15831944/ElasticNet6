@@ -47,6 +47,7 @@ public class NestClient
         {
             connectionSettings.PingTimeout(TimeSpan.FromSeconds(5));
             connectionSettings.BasicAuthentication(ElasticsearchUserName, elasticsearchUserPassword);
+            connectionSettings.EnableApiVersioningHeader(); // A solutin for "BulkAll halted after receiving failures that can not be retried from _bulk".
             connectionSettings.DisableDirectStreaming(true);
             connectionSettings.ServerCertificateValidationCallback(
                 (sender, cert, chain, errors) =>
