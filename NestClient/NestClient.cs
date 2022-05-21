@@ -240,9 +240,19 @@ public class NestClient
     /// If the number of retries exceeds the maximum value set in the methods <see cref="BulkAllDescriptor{T}.BackOffRetries(int?)"/> the method will fail.
     /// </param>
     /// 
+    /// <param name="droppedDocumentCallback">
+    /// Intercepts the documents of the failed batch.<br/>
+    /// Used to feed into a dead letter queue.
+    /// </param>
+    /// 
     /// <param name="onNext">
     /// Intercepts the <see cref="BulkAllResponse"/> for each <u>successful</u> batch.<br/>
     /// Contains the <see cref="BulkAllResponse.Page">number of the batch</see>, its <see cref="BulkAllResponse.Items">items</see> and <see cref="BulkAllResponse.Retries">retries</see>.
+    /// </param>
+    /// 
+    /// <param name="continueAfterDroppedDocuments">
+    /// If <c>true</c> a failed bulk operation does not stop indexing of the following batches.<br/>
+    /// Otherwise bulk all indexing will be halted.
     /// </param>
     /// 
     /// <returns>
