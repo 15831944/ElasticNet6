@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkSpeed", "BulkSpeed\Bulk
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkIndexDocs_OnNext", "BulkIndexDocs_OnNext\BulkIndexDocs_OnNext.csproj", "{06EDB1A6-AB35-4B32-8059-854ECD87D438}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkIndexDocs_BulkResponseCallback", "BulkIndexDocs_BulkResponseCallback\BulkIndexDocs_BulkResponseCallback.csproj", "{B447EFD4-C653-4F43-8D62-42ACF69D544D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkIndexDocs_BulkResponseCallback", "BulkIndexDocs_BulkResponseCallback\BulkIndexDocs_BulkResponseCallback.csproj", "{B447EFD4-C653-4F43-8D62-42ACF69D544D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
