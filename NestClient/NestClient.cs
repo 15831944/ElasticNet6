@@ -290,7 +290,8 @@ public class NestClient
 
             .RefreshOnCompleted()
             .ContinueAfterDroppedDocuments(continueAfterDroppedDocuments)
-            .MaxDegreeOfParallelism(Environment.ProcessorCount), cancellationToken ?? default);
+            .MaxDegreeOfParallelism(Environment.ProcessorCount), 
+            cancellationToken ?? default);
 
         try
         {

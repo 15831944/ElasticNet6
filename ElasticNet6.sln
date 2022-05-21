@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkIndexDocs_BulkResponseC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkIndexDocs_DroppedDocumentCallback", "BulkIndexDocs_DroppedDocumentCallback\BulkIndexDocs_DroppedDocumentCallback.csproj", "{BCF51F7F-200C-4050-A5B6-07BB0F1931AE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkIndexDocs_CancellationToken", "BulkIndexDocs_CancellationToken\BulkIndexDocs_CancellationToken.csproj", "{FAE94D4A-159B-402E-993A-8DB8C4CAD53F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{BCF51F7F-200C-4050-A5B6-07BB0F1931AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BCF51F7F-200C-4050-A5B6-07BB0F1931AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BCF51F7F-200C-4050-A5B6-07BB0F1931AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAE94D4A-159B-402E-993A-8DB8C4CAD53F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAE94D4A-159B-402E-993A-8DB8C4CAD53F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAE94D4A-159B-402E-993A-8DB8C4CAD53F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAE94D4A-159B-402E-993A-8DB8C4CAD53F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
