@@ -39,8 +39,8 @@ static IEnumerable<IdNameValueDoc<string, string>> GenDocs(int count)
 
 void Test1_1Retry()
 {
-    Console.WriteLine("[Test 1: 1 retry]");
-    Console.WriteLine("-----------------");
+    Console.WriteLine("[Test 1: fixing invalid documents]");
+    Console.WriteLine("----------------------------------");
 
     string defaultValue = "unset";
     int updated = 0;
@@ -90,7 +90,8 @@ void Test1_1Retry()
 
 void Test2_NRetries()
 {
-    Console.WriteLine("[Test 2: The number of retries exceeds the maximum]");
+    Console.WriteLine("[Test 2: the number of retries exceeds the maximum]");
+    Console.WriteLine("---------------------------------------------------");
 
     int indexed = 0;
 
