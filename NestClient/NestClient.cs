@@ -36,7 +36,7 @@ public class NestClient
         this.httpsCertificatePassword = httpsCertificatePassword;
     }
 
-    public bool Connect(out Exception? exception)
+    public bool Connect(out Exception? exception, bool enableApiVersioningHeader = true)
     {
         StaticConnectionPool connectionPool = new(Nodes);
         ConnectionSettings connectionSettings = new(connectionPool);
@@ -47,7 +47,7 @@ public class NestClient
         {
             connectionSettings.PingTimeout(TimeSpan.FromSeconds(5));
             connectionSettings.BasicAuthentication(ElasticsearchUserName, elasticsearchUserPassword);
-            connectionSettings.EnableApiVersioningHeader(); // A solutin for "BulkAll halted after receiving failures that can not be retried from _bulk".
+            connectionSettings.EnableApiVersioningHeader(enableApiVersioningHeader); // A solutin for "BulkAll halted after receiving failures that can not be retried from _bulk".
             connectionSettings.DisableDirectStreaming(true);
             connectionSettings.ServerCertificateValidationCallback(
                 (sender, cert, chain, errors) =>
