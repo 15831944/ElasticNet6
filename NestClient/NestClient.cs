@@ -356,6 +356,9 @@ public class NestClient
         return response.IsValid;
     }
 
+    /// <summary>
+    /// Get indices associated with the alias.
+    /// </summary>
     public bool TryGetIndicesByAlias(string name, out string info, out string[] indices)
     {
         GetAliasResponse response = elasticClient.Indices.GetAlias(name);
