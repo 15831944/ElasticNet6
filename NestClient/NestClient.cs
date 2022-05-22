@@ -293,13 +293,16 @@ public class NestClient
         out long totalNumberOfRetries,
         out long totalNumberOfFailedBuffers,
         out Exception? e,
+        
         CancellationToken? cancellationToken = null,
+        
         // settings:
         string timeBetweenRetries = "2s",
         int numberOfRetries = 2,
         int portionSize = 5000,
         int maximumRuntimeSeconds = 60,
         bool continueAfterDroppedDocuments = true,
+        
         // handlers:
         Action<BulkResponse>? bulkResponseCallback = null,
         Action<BulkResponseItemBase, TDoc>? droppedDocumentCallback = null,
@@ -346,22 +349,22 @@ public class NestClient
     /// <summary>
     /// Associates the alias only with the specified index.
     /// </summary>
-    public bool TryTransferAlias(string name, string newIndexName, out string info)
+    public bool TryTransferAlias(string alias, string newIndexName, out string info)
     {
         BulkAliasResponse response = elasticClient.Indices.BulkAlias(d => d
-            .Remove(r => r.Index("*").Alias(name))
-            .Add(r => r.Index(newIndexName).Alias(name)));
+            .Remove(r => r.Index("*").Alias(alias))
+            .Add(r => r.Index(newIndexName).Alias(alias)));
 
         info = response.IsValid ? "OK" : response.GetShortInfo();
         return response.IsValid;
     }
 
     /// <summary>
-    /// Get indices associated with the alias.
+    /// Get indices by the name or associated with the alias.
     /// </summary>
-    public bool TryGetIndicesByAlias(string name, out string info, out string[] indices)
+    public bool TryGetIndices(string nameOrAlias, out string info, out string[] indices)
     {
-        GetAliasResponse response = elasticClient.Indices.GetAlias(name);
+        GetAliasResponse response = elasticClient.Indices.GetAlias(nameOrAlias);
 
         if (response.IsValid)
         {
@@ -375,6 +378,30 @@ public class NestClient
         }
 
         return response.IsValid;
+    }
+
+    /// <summary>
+    /// Get indices associated with the alias only if it exists.
+    /// </summary>
+    public bool TryGetIndicesByAlias(string alias, out string info, out string[] indices, bool notFoundAsSuccess = true)
+    {
+        ExistsResponse aliasExistsResponse = elasticClient.Indices.AliasExists(alias);
+
+        if (aliasExistsResponse.Exists)
+        {
+            return TryGetIndices(alias, out info, out indices);
+        }
+
+        indices = Array.Empty<string>();
+
+        if (aliasExistsResponse.OriginalException is not null || aliasExistsResponse.ServerError is not null)
+        {
+            info = aliasExistsResponse.GetShortInfo();
+            return false;
+        }
+
+        info = "The alias was not found.";
+        return notFoundAsSuccess && true;
     }
     #endregion
 }

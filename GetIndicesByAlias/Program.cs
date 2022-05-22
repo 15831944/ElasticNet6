@@ -37,10 +37,10 @@ else
 
 while (true)
 {
-    Console.Write("Alias name: ");
+    Console.Write("Alias: ");
     
-    string aliasName = Console.ReadLine()!;
-    bool success = nestClient.TryGetIndicesByAlias(aliasName, out string info, out string[] indices);
+    string alias = Console.ReadLine()!;
+    bool success = nestClient.TryGetIndicesByAlias(alias, out string info, out string[] indices, notFoundAsSuccess: false);
 
     Console.WriteLine("Success: " + success);
     Console.WriteLine("Info: " + info);
@@ -50,12 +50,17 @@ while (true)
 
 // Work
 
-// Alias name: test
+// Alias: test
 // Success: True
 // Info: OK
-// Indices: test-2, test-1
+// Indices: test-1, test-2
    
-// Alias name: xxx
+// Alias: xxx
 // Success: False
-// Info: Server error: "no such index [xxx]"
+// Info: The alias was not found.
+// Indices:
+   
+// Alias: test-1
+// Success: False
+// Info: The alias was not found.
 // Indices:

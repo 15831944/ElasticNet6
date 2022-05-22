@@ -26,7 +26,7 @@ else
 
 while (true)
 {
-    Console.Write("Alias name: ");
+    Console.Write("Alias: ");
     string aliasName = Console.ReadLine()!;
 
     Console.Write("New index name: ");
@@ -41,25 +41,25 @@ while (true)
 
 // Work:
 
-// Alias name: test
+// Alias: test
 // New index name: test-1
 // Success: True
 // Info: OK
 // (GET test --> test-1)
 
-// Alias name: test
+// Alias: test
 // New index name: test-2
 // Success: True
 // Info: OK
 // (GET test --> test-2)
 
-// Alias name: te st
+// Alias: te st
 // New index name: te st 3
 // Success: False
 // Info: Server error: "no such index [te st 3]"
 // (GET test --> test-2)
 
-// Alias name: te st
+// Alias: te st
 // New index name: test-1
 // Success: False
 // Info: Client error: "Request failed to execute.
