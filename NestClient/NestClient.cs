@@ -199,7 +199,7 @@ public class NestClient
             return notFoundAsSuccess && response.ServerError.Status == 404;
         }
 
-        info = "Unknown error.";
+        info = response.DebugInformation;
         return false;
     }
     #endregion
@@ -339,6 +339,21 @@ public class NestClient
         }
 
         return e is null;
+    }
+    #endregion
+
+    #region Alias
+    /// <summary>
+    /// Associates the alias only with the specified index.
+    /// </summary>
+    public bool TryTransferAlias(string name, string newIndexName, out string info)
+    {
+        BulkAliasResponse response = elasticClient.Indices.BulkAlias(d => d
+            .Remove(r => r.Index("*").Alias(name))
+            .Add(r => r.Index(newIndexName).Alias(name)));
+
+        info = response.IsValid ? "OK" : response.GetShortInfo();
+        return response.IsValid;
     }
     #endregion
 }
