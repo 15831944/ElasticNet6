@@ -172,6 +172,36 @@ public class NestClient
 
         return result.Acknowledged;
     }
+
+    /// <summary>
+    /// Deletes the specified index.
+    /// </summary>
+    /// <returns><c>true</c> if the operation completed with code 200 or 404.</returns>
+    public bool TryDeleteIndex(string name, out string info, bool notFoundAsSuccess = true)
+    {
+        DeleteIndexResponse response = elasticClient.Indices.Delete(name);
+
+        if (response.IsValid)
+        {
+            info = "OK";
+            return true;
+        }
+
+        if (response.OriginalException is not null)
+        {
+            info = $"Client error: \"{response.OriginalException.Message}\"";
+            return false;
+        }
+
+        if (response.ServerError is not null)
+        {
+            info = $"Server error: \"{response.ServerError.Error.Reason}\"";
+            return notFoundAsSuccess && response.ServerError.Status == 404;
+        }
+
+        info = "Unknown error.";
+        return false;
+    }
     #endregion
 
     #region Document

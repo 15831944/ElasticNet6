@@ -19,11 +19,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkIndexDocs_OnNext", "Bul
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkIndexDocs_BulkResponseCallback", "BulkIndexDocs_BulkResponseCallback\BulkIndexDocs_BulkResponseCallback.csproj", "{B447EFD4-C653-4F43-8D62-42ACF69D544D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkIndexDocs_DroppedDocumentCallback", "BulkIndexDocs_DroppedDocumentCallback\BulkIndexDocs_DroppedDocumentCallback.csproj", "{BCF51F7F-200C-4050-A5B6-07BB0F1931AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkIndexDocs_DroppedDocumentCallback", "BulkIndexDocs_DroppedDocumentCallback\BulkIndexDocs_DroppedDocumentCallback.csproj", "{BCF51F7F-200C-4050-A5B6-07BB0F1931AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkIndexDocs_CancellationToken", "BulkIndexDocs_CancellationToken\BulkIndexDocs_CancellationToken.csproj", "{FAE94D4A-159B-402E-993A-8DB8C4CAD53F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkIndexDocs_CancellationToken", "BulkIndexDocs_CancellationToken\BulkIndexDocs_CancellationToken.csproj", "{FAE94D4A-159B-402E-993A-8DB8C4CAD53F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulkIndexDocs_RetryDocumentPredicate", "BulkIndexDocs_RetryDocumentPredicate\BulkIndexDocs_RetryDocumentPredicate.csproj", "{747BE81D-5378-4FBF-9FDF-40C706DE04BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkIndexDocs_RetryDocumentPredicate", "BulkIndexDocs_RetryDocumentPredicate\BulkIndexDocs_RetryDocumentPredicate.csproj", "{747BE81D-5378-4FBF-9FDF-40C706DE04BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeleteIndex", "DeleteIndex\DeleteIndex.csproj", "{03021188-262F-4FB7-A7E4-9EA7776F3EB6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +77,10 @@ Global
 		{747BE81D-5378-4FBF-9FDF-40C706DE04BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{747BE81D-5378-4FBF-9FDF-40C706DE04BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{747BE81D-5378-4FBF-9FDF-40C706DE04BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03021188-262F-4FB7-A7E4-9EA7776F3EB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03021188-262F-4FB7-A7E4-9EA7776F3EB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03021188-262F-4FB7-A7E4-9EA7776F3EB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03021188-262F-4FB7-A7E4-9EA7776F3EB6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
