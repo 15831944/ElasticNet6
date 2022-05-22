@@ -355,5 +355,23 @@ public class NestClient
         info = response.IsValid ? "OK" : response.GetShortInfo();
         return response.IsValid;
     }
+
+    public bool TryGetIndicesByAlias(string name, out string info, out string[] indices)
+    {
+        GetAliasResponse response = elasticClient.Indices.GetAlias(name);
+
+        if (response.IsValid)
+        {
+            indices = response.Indices.Select(i => i.Key.Name).ToArray();
+            info = "OK";
+        }
+        else
+        {
+            indices = Array.Empty<string>();
+            info = response.GetShortInfo();
+        }
+
+        return response.IsValid;
+    }
     #endregion
 }
